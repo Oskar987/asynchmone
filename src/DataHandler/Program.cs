@@ -6,7 +6,7 @@ class Program
 {
     static void Main(string[] args)
     {
-        var records = ProcessData();
+        var records = ProcessData().Result;
 
         Console.WriteLine($"Успешно обработано: {records.Count()} записей");
         foreach (var person in records)
@@ -17,14 +17,14 @@ class Program
         Console.ReadLine();
     }
 
-    static IReadOnlyCollection<Person> ProcessData()
+    static async Task<IReadOnlyCollection<Person>> ProcessData()
     {
         var loader = new DataLoader();
         IReadOnlyCollection<string> data = loader.LoadData();
 
         var logger = new FileLogger();
         var handler = new DataHandler.Library.DataHandler(logger);
-        var records = handler.HandleData(data);
+        var records = await handler.HandleData(data);
         return records;
     }
 }
