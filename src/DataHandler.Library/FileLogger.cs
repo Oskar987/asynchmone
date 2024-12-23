@@ -17,10 +17,10 @@ public class FileLogger : ILogger
         }
     }
 
-    public void LogMessage(string message, string data)
+    public async Task LogMessage(string message, string data)
     {
         using var writer = new StreamWriter(_logPath, true);
-        writer.WriteLine(
+        await writer.WriteLineAsync(
             $"{DateTime.Now:s}: {message} - {data}");
     }
 }
